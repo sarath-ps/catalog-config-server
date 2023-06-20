@@ -25,6 +25,22 @@ ext {
     set('springCloudVersion', "2021.0.7")
 }
 
+
+bootBuildImage {
+    imageName = "${project.name}:${version}"
+    environment = [
+            'BP_JVM_VERSION': '17.*'
+    ]
+
+    docker {
+        publishRegistry {
+            url = project.findProperty('registryUrl')
+            username = project.findProperty('registryUsername')
+            password = project.findProperty('registryToken')
+        }
+    }
+}
+
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-config-server'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
